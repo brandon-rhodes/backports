@@ -40,6 +40,49 @@ they offer, but I think that will be unkind to actual users,
 since the most widespread versions of Python today still
 display warnings by default.
 
+Building your own backports module
+----------------------------------
+
+Placing a module of your own inside of the ``backports`` namespace
+requires only a few simple steps. First, set your project up like::
+
+    project/
+    project/setup.py
+    project/backports/
+    project/backports/__init__.py   <--- SPECIAL - see below!
+    project/backports/yourpkg/
+    project/backports/yourpkg/__init__.py
+    project/backports/yourpkg/foo.py
+    project/backports/yourpkg/bar.py
+
+This places your own package inside of the ``backports`` namespace,
+so your package and its modules can be imported like this::
+
+    import backports.yourpkg
+    import backports.yourpkg.foo
+
+The one **absolutely essential rule** is that the ``__init__.py`` inside
+of the ``backports`` directory itself **must** have the following code
+as its content::
+
+    # A Python "namespace package" http://www.python.org/dev/peps/pep-0382/
+    # This always goes inside of a namespace package's __init__.py
+
+    from pkgutil import extend_path
+    __path__ = extend_path(__path__, __name__)
+
+If you fail to include this code, then the namespace package might fail
+to see all of the packages beneath it, and ``import`` statements might
+return errors.
+
+A live example of a package that implements all of this can be
+downloaded from the Python Package Index:
+
+http://pypi.python.org/pypi/backports.ssl_match_hostname/3.2a3
+
+What if the feature is present?
+-------------------------------
+
 An issue on which I am undecided is whether a ``backports`` package,
 if it finds itself on a modern enough version of Python,
 should simply import the “real” version of its feature
