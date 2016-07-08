@@ -18,7 +18,7 @@ in the Package Index for what is, after all, a stopgap measure
 until older versions of Python are one day retired.
 
 And so I conceived this ``backports`` namespace package.
-It reserves a namespace beneath which we can happy place
+It reserves a namespace beneath which we can happily place
 all of the various features that we want to cut-and-paste
 from later Python versions.
 I hope that this will provide two benefits:
