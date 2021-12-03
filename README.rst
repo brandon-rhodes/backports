@@ -40,10 +40,9 @@ Building your own backports module
 Placing a module of your own inside of the ``backports`` namespace
 requires only a few simple steps. First, set your project up like::
 
-    project/
-    project/setup.py
+    project/pyproject.toml
     project/backports/
-    project/backports/__init__.py   <--- SPECIAL - see below!
+    project/backports/__init__.py   <--- OPTIONAL - see below!
     project/backports/yourpkg/
     project/backports/yourpkg/__init__.py
     project/backports/yourpkg/foo.py
@@ -55,9 +54,13 @@ so your package and its modules can be imported like this::
     import backports.yourpkg
     import backports.yourpkg.foo
 
-The one **absolutely essential rule** is that the ``__init__.py`` inside
-of the ``backports`` directory itself **must** have the following code
-as its content::
+The file ``backports.__init__.py`` is optional for projects that support
+only Python 3.3 or later. If omitted, the package will be a PEP 420
+"native" namespace package.
+
+For projects that support Python 3.2 or earlier,
+it's **absolutely essential** that the ``backports.__init__.py`` have
+the following code as its content::
 
     # A Python "namespace package" http://www.python.org/dev/peps/pep-0382/
     # This always goes inside of a namespace package's __init__.py
@@ -65,14 +68,19 @@ as its content::
     from pkgutil import extend_path
     __path__ = extend_path(__path__, __name__)
 
-If you fail to include this code, then the namespace package might fail
-to see all of the packages beneath it, and ``import`` statements might
-return errors.
+Failing to include this code will cause the module to be treated as the
+canonical package for ``import backports``, masking imports for other
+``backports`` packages and causing errors.
 
-A live example of a package that implements all of this can be
-downloaded from the Python Package Index:
+A live example of a package that implements a ``pkgutil``-style namespace
+can be downloaded from the Python Package Index:
 
 http://pypi.python.org/pypi/backports.ssl_match_hostname/3.2a3
+
+There are currently no working examples of a native backports namespace
+package. See
+`backports#1 <https://github.com/brandon-rhodes/backports/issues/1`_
+for details.
 
 What if the feature is present?
 -------------------------------
