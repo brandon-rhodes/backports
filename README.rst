@@ -1,9 +1,3 @@
-# -*- coding: utf-8 -*-
-from distutils.core import setup
-setup(name='backports',
-      version='1.0',
-      description='Namespace for backported Python features',
-      long_description=u"""\
 A few minutes ago,
 my fingers were poised for a moment above the keyboard
 as I prepared to backport the essential ``match_hostname()`` function
@@ -96,10 +90,3 @@ to be faced with that breakage when they themselves
 try removing the backport,
 instead of being faced with it simply because a user
 tries running their program on more modern version of Python.
-
-""",
-      author='Brandon Craig Rhodes',
-      author_email='brandon@rhodesmill.org',
-      url='http://bitbucket.org/brandon/backports',
-      packages=['backports'],
-      )
