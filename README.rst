@@ -79,7 +79,7 @@ http://pypi.python.org/pypi/backports.ssl_match_hostname/3.2a3
 
 There are currently no working examples of a native backports namespace
 package. See
-`backports#1 <https://github.com/brandon-rhodes/backports/issues/1`_
+`backports#1 <https://github.com/brandon-rhodes/backports/issues/1>`_
 for details.
 
 What if the feature is present?
